@@ -1,7 +1,6 @@
 build/
 build-*/
 install/
-www/
 deploy.sh
 sources/zlib
 sources/libjpeg
