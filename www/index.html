@@ -168,7 +168,10 @@
                     return;
                 }
 
-                mtl.setProxy(proxies[0][0]);
+                if (!PROXY_URL)
+                    PROXY_URL = proxies[0][0]
+
+                mtl.setProxy(PROXY_URL);
                 //mtl.addPack(join_game);
 
                 const args = new MinetestArgs();

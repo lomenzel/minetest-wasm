@@ -1,3 +1,4 @@
 PORT = 30001
 DOMAIN = "menzel.lol"
 SERVER_NAME = "Cooler Server"
+PROXY_URL = "wss://eu1.dustlabs.io/mtproxy"
