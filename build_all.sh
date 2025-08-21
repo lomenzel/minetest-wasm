@@ -22,11 +22,11 @@ emcc --clear-cache --clear-ports
 ./build_libarchive.sh # uses zstd
 ./build_sqlite3.sh
 ./build_webshims.sh
-./build_openssl.sh
+./build_openssl.sh   # uses webshims
 ./build_curl.sh      # uses webshims, openssl, zlib
 
 # Minetest
-./build_minetest.sh
+./build_minetest.sh  # uses zlib, libjpeg, libpng, libogg, libvorbis, freetype, sqlite, zstd, curl, openssl, webshims, libarchive
 
 # Virtual file system
 ./build_fsroot.sh

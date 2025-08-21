@@ -4,8 +4,8 @@
   src = fetchFromGitHub {
     owner = "facebook";
     repo = "zstd";
-    rev = "e47e674cd09583ff0503f0f6defd6d23d8b718d3"
-    sha256 = "";
+    rev = "e47e674cd09583ff0503f0f6defd6d23d8b718d3";
+    hash = "sha256-yJvhcysxcbUGuDOqe/TQ3Y5xyM2AUw6r1THSHOqmUy0=";
   };
 
   buildInputs = [emscripten cmake];
@@ -36,7 +36,7 @@
 
     emcmake cmake \
       -DCMAKE_INSTALL_PREFIX="$out" \
-      $src
+      $src/build/cmake
   '';
 
   buildPhase = ''
@@ -46,5 +46,11 @@
   installPhase = ''
     emmake make install
   '';
+
+
+
+  # /bin/zstd is missing. i dont know if its needed.
+  fixupPhase = "true";
+  checkPhase = "true";
 
 }

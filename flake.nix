@@ -12,8 +12,7 @@
     in
     {
       packages."x86_64-linux" = rec {
-        default = minetest-wasm;
-        minetest-wasm = pkgs.callPackage ./packages/minetest-wasm { inherit emscripten; };
+        default = minetest;
         emscripten = pkgs.callPackage ./packages/emscripten { };
 
         zlib = pkgs.callPackage ./packages/zlib { inherit emscripten; };
@@ -22,7 +21,36 @@
         libogg = pkgs.callPackage ./packages/libogg { inherit emscripten; };
         libvorbis = pkgs.callPackage ./packages/libvorbis { inherit emscripten libogg; };
         freetype = pkgs.callPackage ./packages/freetype { inherit emscripten libpng zlib; };
-        zstd = pkgs.callPackage ./packages/zstd {inherit emscripten;};
+        zstd = pkgs.callPackage ./packages/zstd { inherit emscripten; };
+        libarchive = pkgs.callPackage ./packages/libarchive { inherit emscripten zstd; };
+        sqlite = pkgs.callPackage ./packages/sqlite { inherit emscripten; };
+        webshims = pkgs.callPackage ./packages/webshims { inherit emscripten; };
+        openssl = pkgs.callPackage ./packages/openssl { inherit emscripten webshims; };
+        curl = pkgs.callPackage ./packages/curl {
+          inherit
+            emscripten
+            webshims
+            openssl
+            zlib
+            ;
+        };
+        minetest = pkgs.callPackage ./packages/minetest {
+          inherit
+            emscripten
+            zlib
+            libjpeg
+            libpng
+            libogg
+            libvorbis
+            freetype
+            zstd
+            libarchive
+            sqlite
+            webshimms
+            openssl
+            curl
+            ;
+        };
       };
     };
 }
