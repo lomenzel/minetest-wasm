@@ -12,7 +12,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -28,6 +28,8 @@
   configurePhase = ''
     mkdir -p $out
 
+    export CFLAGS="-O2 -pthread"
+    export LDFLAGS="-pthread"
     emconfigure ./configure --static --prefix="$out"
   '';
 

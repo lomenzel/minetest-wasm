@@ -12,7 +12,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -31,11 +31,11 @@
     # makefile can't handle parallelism
     export MAKEFLAGS=""
 
-    export CFLAGS="-D_POSIX_SOURCE=1"
-    export CXXFLAGS="-D_POSIX_SOURCE=1"
-
     emcmake cmake \
+      -DCMAKE_C_FLAGS="-pthread -D_POSIX_SOURCE=1" \
+      -DCMAKE_CXX_FLAGS="-pthread -D_POSIX_SOURCE=1" \
       -DCMAKE_INSTALL_PREFIX="$out" \
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       $src/build/cmake
   '';
 

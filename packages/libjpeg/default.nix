@@ -12,7 +12,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -33,8 +33,11 @@
     export MAKEFLAGS=""
 
     emcmake cmake \
+    -DCMAKE_C_FLAGS="-pthread" \
+    -DCMAKE_CXX_FLAGS="-pthread" \
     -DCMAKE_INSTALL_PREFIX="$out" \
     -DWITH_SIMD=0 \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     $src
   '';
 

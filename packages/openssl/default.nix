@@ -13,7 +13,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -31,9 +31,9 @@
 
     ${python3}/bin/python "${webshims.src}/src/emsocket/wrap.py" .
 
-    export CFLAGS="-I${webshims}/include -DPEDANTIC"
-    export CXXFLAGS="$CFLAGS"
-    export LDFLAGS="-L${webshims}/lib -lemsocket"
+    export CFLAGS="-O2 -pthread -I${webshims}/include -DPEDANTIC"
+    export CXXFLAGS="-O2 -pthread -I${webshims}/include -DPEDANTIC"
+    export LDFLAGS="-pthread -L${webshims}/lib -lemsocket"
 
     emconfigure ${perl}/bin/perl ./Configure linux-generic64 \
       no-asm \

@@ -4,15 +4,15 @@
   src = fetchFromGitHub {
     owner  = "paradust7";
     repo = "webshims";
-    rev = "91c3fe85d2cb7f85cc8e19d3f53dc8f252a69ff7";
-    hash = "sha256-Zvn7mv48zu9Pu/VEpAxDhQt0quThmv2NJ1xhR9qG4jI=";
+    rev = "0767fdedd87f61a28a34f6444b669caf563a9fd5";
+    hash = "sha256-GzXWgdLjRmGYThfbJ+liMFPEqkj7MaUvMM6no3nLLyw=";
   };
 
   buildInputs = [emscripten cmake];
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -28,8 +28,12 @@
   configurePhase = ''
     mkdir -p $out
 
-    emcmake cmake -DCMAKE_INSTALL_PREFIX="$out" "$src"
-
+    # Pass pthread flags via CMake to ensure they're used during compilation
+    emcmake cmake \
+      -DCMAKE_C_FLAGS="-pthread" \
+      -DCMAKE_CXX_FLAGS="-pthread" \
+      -DCMAKE_INSTALL_PREFIX="$out" \
+      "$src"
   '';
 
   buildPhase = ''

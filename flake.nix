@@ -1,6 +1,6 @@
 {
-  #uses very old nixpkgs rev because it has emscripten 3.1.51 which is used by upstream minetest-wasm
-  #  inputs.nixpkgs-emscripten.url = "github:NixOS/nixpkgs/67b4bf1df4ae54d6866d78ccbd1ac7e8a8db8b73";
+  #uses very old nixpkgs rev because it has emscripten 4.0.12 which is used by upstream minetest-wasm
+  inputs.nixpkgs-emscripten.url = "github:NixOS/nixpkgs/ee09932";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
@@ -9,19 +9,15 @@
     let
       pkgs = import nixpkgs { system = "x86_64-linux"; };
       pkgs-emscripten = import inputs.nixpkgs-emscripten { system = "x86_64-linux"; };
+      pkgs-emscripten-cross = import inputs.nixpkgs-emscripten-cross { system = "x86_64-linux"; };
     in
     {
       packages."x86_64-linux" = rec {
         default = minetest;
-        irrlichtmt = pkgs.fetchFromGitHub {
-          owner = "paradust7";
-          repo = "irrlicht";
-          rev = "b810648de489cf7f83d73635b7c6b83b94950a2e";
-          hash = "sha256-qCsHVz+i8iYuRxHfA6ai5W59OgyHhVYYXgaF5chjdKQ=";
-          name = "irrlichtmt";
-        };
-        emscripten = pkgs.callPackage ./packages/emscripten { };
 
+        emscripten = pkgs-emscripten.callPackage ./packages/emscripten { };
+
+        sdl = pkgs.callPackage ./packages/sdl { inherit emscripten; };
         zlib = pkgs.callPackage ./packages/zlib { inherit emscripten; };
         libjpeg = pkgs.callPackage ./packages/libjpeg { inherit emscripten; };
         libpng = pkgs.callPackage ./packages/libpng { inherit emscripten zlib; };
@@ -41,6 +37,8 @@
             zlib
             ;
         };
+        fsroot = pkgs.callPackage ./packages/fsroot { inherit minetest; };
+        www = pkgs.callPackage ./packages/www { inherit minetest fsroot; static = ./static; };
         minetest = pkgs.callPackage ./packages/minetest {
           inherit
             emscripten
@@ -56,9 +54,11 @@
             webshims
             openssl
             curl
-            irrlichtmt
+            sdl
             ;
         };
+
+
       };
     };
 }

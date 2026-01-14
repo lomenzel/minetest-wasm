@@ -11,7 +11,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -27,10 +27,12 @@
   configurePhase = ''
     mkdir -p $out
 
+    export CFLAGS="-O2 -pthread"
+    export CXXFLAGS="-O2 -pthread"
     export CPPFLAGS="-I${zlib}/include"
-    export LDFLAGS="-L${zlib}/lib"
+    export LDFLAGS="-pthread -L${zlib}/lib"
 
-    emconfigure ./configure --disable-shared --prefix="$out"
+    emconfigure ./configure --disable-shared --prefix="$out" CFLAGS="$CFLAGS"
   '';
 
   buildPhase = ''

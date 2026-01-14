@@ -21,7 +21,7 @@ stdenv.mkDerivation {
   buildInputs = [ emscripten cmake ];
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -38,11 +38,14 @@ stdenv.mkDerivation {
     mkdir -p $out
 
     emcmake cmake \
+      -DCMAKE_C_FLAGS="-pthread" \
+      -DCMAKE_CXX_FLAGS="-pthread" \
       -DCMAKE_INSTALL_PREFIX="$out" \
       -DZLIB_LIBRARY="${zlib}/lib/zlib.a" \
       -DZLIB_INCLUDE_DIR="${zlib}/include" \
       -DPNG_LIBRARY="${libpng}/lib/libpng.a" \
       -DPNG_PNG_INCLUDE_DIR="${libpng}/include" \
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       $src
   '';
 

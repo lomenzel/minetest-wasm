@@ -1,4 +1,6 @@
-{ emscripten }:
+{
+  emscripten,
+}:
 emscripten.overrideAttrs (old: {
 
   patches = old.patches ++ [

@@ -10,7 +10,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -27,9 +27,12 @@
     mkdir -p $out
 
     export CPPFLAGS="-I${zstd}/include"
-    export LDFLAGS="-L${zstd}/lib"
+    export CFLAGS="-O2 -pthread"
+    export LDFLAGS="-pthread -L${zstd}/lib"
 
     emconfigure ./configure \
+    CFLAGS="$CFLAGS" \
+    LDFLAGS="$LDFLAGS" \
     --enable-static \
     --disable-shared \
     --disable-bsdtar \

@@ -10,7 +10,7 @@
 
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -28,12 +28,9 @@
 
     ${python3}/bin/python "${webshims.src}/src/emsocket/wrap.py" .
 
-    # For emsocket.h
-    export CFLAGS="-I${webshims}/include"
-    export CXXFLAGS="$CFLAGS"
-    export LDFLAGS="-L${webshims}/lib -lemsocket"
-
     emcmake cmake \
+      -DCMAKE_C_FLAGS="-pthread -I${webshims}/include" \
+      -DCMAKE_CXX_FLAGS="-pthread -I${webshims}/include" \
       -DCURL_ZLIB=ON \
       -DZLIB_INCLUDE_DIR="${zlib}/include" \
       -DZLIB_LIBRARY="${zlib}/lib/libz.a" \
@@ -42,6 +39,7 @@
       -DOPENSSL_INCLUDE_DIR="${openssl}/include" \
       -DBUILD_CURL_EXE=OFF \
       -DBUILD_SHARED_LIBS=OFF \
+      -DHAVE_FCNTL_O_NONBLOCK=ON \
       -DCMAKE_INSTALL_PREFIX="$out" \
       .
   '';

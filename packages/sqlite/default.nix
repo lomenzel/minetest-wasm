@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
   ];
 
   # some env variables that might be important (common.sh)
-  preConfigurePhase = ''
+  preConfigure = ''
     export MINETEST_BUILD_TYPE="Release"
     export COMMON_CFLAGS="-O2"
     export COMMON_LDFLAGS=""
@@ -40,7 +40,10 @@ stdenv.mkDerivation rec {
     mkdir -p $out
 
     export BUILD_CC="${gcc}/bin/gcc"
-    emconfigure ./configure --disable-tcl --disable-shared --prefix="$out" cross_compiling=yes
+    export CFLAGS="-O2 -pthread"
+    export CXXFLAGS="-O2 -pthread"
+    export LDFLAGS="-pthread"
+    emconfigure ./configure --disable-tcl --disable-shared --prefix="$out" cross_compiling=yes CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS"
 
   '';
 
