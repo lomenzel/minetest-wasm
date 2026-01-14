@@ -27,16 +27,8 @@ getrepo freetype "https://gitlab.freedesktop.org/freetype/freetype.git" a8e4563c
 getrepo zstd "https://github.com/facebook/zstd.git" e47e674cd09583ff0503f0f6defd6d23d8b718d3
 
 # Minetest Game
-getrepo minetest_game "https://github.com/minetest/minetest_game.git" a3b171e317ec63428975915b821eb438c313adef
+getrepo minetest_game "https://github.com/minetest/minetest_game.git" 052ccb09280a1fa52022c7e120437b1e6dc82771
 
 # These repos are part of the fork
-getrepo webshims "https://github.com/paradust7/webshims.git" 91c3fe85d2cb7f85cc8e19d3f53dc8f252a69ff7
-getrepo minetest "https://github.com/paradust7/minetest.git" b3543e3af0c7a87012849bf824d9be2792ed2956
-getrepo irrlichtmt "https://github.com/paradust7/irrlicht.git" b810648de489cf7f83d73635b7c6b83b94950a2e
-
-# Make irrlichtmt symlink
-pushd "$SOURCES_DIR"/minetest/lib
-if [ ! -e irrlichtmt ]; then
-  ln -s ../../irrlichtmt irrlichtmt
-fi
-popd
+getrepo webshims "https://github.com/paradust7/webshims.git" 0767fdedd87f61a28a34f6444b669caf563a9fd5
+getrepo minetest "https://github.com/paradust7/minetest.git" 1cfdd6d6bedbd860ab993e99db18f29db1a0c5d2
